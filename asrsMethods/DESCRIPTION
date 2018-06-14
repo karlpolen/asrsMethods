@@ -1,0 +1,10 @@
+Package: asrsMethods
+Title: Financial Methods for Institutional Investors
+Version: 0.0.0.9000
+Authors@R: person("Karl", "Polen", email = "karlp@azasrs.gov", role = c("aut", "cre"))
+Description: Financial Methods for Institutional Investors
+Depends: R (>= 3.4.3)
+License: GNU
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
