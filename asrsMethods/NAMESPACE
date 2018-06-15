@@ -3,6 +3,8 @@
 export(firstinvec)
 export(fv.z)
 export(intportion)
+export(irr.z)
+export(irrgap.z)
 export(lastinvec)
 export(loanamort)
 export(loanbal)
