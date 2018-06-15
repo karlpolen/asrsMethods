@@ -2,6 +2,7 @@
 
 export(addtotal.list)
 export(firstinvec)
+export(fv.tr)
 export(fv.z)
 export(gd)
 export(gdminus1)
