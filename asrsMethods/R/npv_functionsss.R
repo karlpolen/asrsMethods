@@ -102,7 +102,7 @@ npv.z=function(i,cf,freq=1,apr=FALSE,now=NULL,drop.bef.now=TRUE,adjdisc=NULL) {
 #' @export
 #' @examples 
 #' cf=zoo(c(1,2),as.Date("2018-1-1")+c(0,30))
-#' tr=zoo(c(101,102),as.Date("2018-1-1)+c(0,30))
+#' tr=zoo(c(101,102),as.Date("2018-1-1")+c(0,30))
 #' fv.tr(cf,tr)
 fv.tr=function(CF,TR,ValDate=NULL) {  
   #

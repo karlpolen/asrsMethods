@@ -7,6 +7,8 @@
 gg(x, variable.name = "Variable", value.name = "Value")
 }
 \arguments{
+\item{zoo.object}{is the zoo object}
+
 \item{wide}{starting form is wide if true}
 
 \item{dataname}{"Value" is default}

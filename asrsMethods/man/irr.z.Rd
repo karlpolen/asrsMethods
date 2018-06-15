@@ -7,6 +7,8 @@
 irr.z(cf.z, gips = FALSE)
 }
 \arguments{
+\item{gips}{calculations is GIPS compliant if TRUE}
+
 \item{cf}{is the cash flow, a zoo object with date (i.e. daily) class time}
 }
 \description{

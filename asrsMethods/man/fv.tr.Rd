@@ -16,4 +16,9 @@ fv.tr(CF, TR, ValDate = NULL)
 \description{
 calculates FV from cash flow and a total return index
 }
+\examples{
+cf=zoo(c(1,2),as.Date("2018-1-1")+c(0,30))
+tr=zoo(c(101,102),as.Date("2018-1-1")+c(0,30))
+fv.tr(cf,tr)
+}
 \keyword{present_value}

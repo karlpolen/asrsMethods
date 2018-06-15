@@ -3,7 +3,7 @@
 #' How much more (or less) terminal value to achieve target IRR
 #' @param i is the target IRR
 #' @param cf is the cash flow, a zoo object with date (i.e. daily) class time
-#' @end is the valuation date, defaults to last day in cash flow
+#' @param end is the valuation date, defaults to last day in cash flow
 #' @keywords IRR
 #' @export
 #' @examples
@@ -23,7 +23,7 @@ irrgap.z=function(i,cf.z,end=NA) {
 #'
 #' Calculate an IRR from a zoo object with GIPS compliance option
 #' @param cf is the cash flow, a zoo object with date (i.e. daily) class time
-#' @gips calculations is GIPS compliant if TRUE
+#' @param gips calculations is GIPS compliant if TRUE
 #' @keywords IRR
 #' @export
 #' @examples

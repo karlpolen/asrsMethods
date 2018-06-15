@@ -9,6 +9,8 @@ irrgap.z(i, cf.z, end = NA)
 \arguments{
 \item{i}{is the target IRR}
 
+\item{end}{is the valuation date, defaults to last day in cash flow}
+
 \item{cf}{is the cash flow, a zoo object with date (i.e. daily) class time}
 }
 \description{

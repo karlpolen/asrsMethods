@@ -151,7 +151,7 @@ gdweight=function(x){
 #' gg
 #' 
 #' convert a zoo data.frame to long data frame with date as a column ready for ggplot
-#' @param zoo.object
+#' @param zoo.object is the zoo object
 #' @param wide starting form is wide if true
 #' @param dataname "Value" is default
 #' @param datename "Date" is default
@@ -169,7 +169,7 @@ gg=function(x,variable.name="Variable",value.name="Value") {
 #' unzoo
 #' 
 #' convert a zoo data.frame to regular data frame with date as a column
-#' @param zoo.object
+#' @param zoo.object is the zoo object
 #' @param wide starting form is wide if true
 #' @param dataname "Value" is default
 #' @param datename "Date" is default
