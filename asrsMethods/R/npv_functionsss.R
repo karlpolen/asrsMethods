@@ -1,3 +1,17 @@
+#' Future Value Function
+#' 
+#' Calculates future value at end of cash flow or date "now"
+#' 
+#' @param i is the periodic interest rate
+#' @param cf is the cash flow, a zoo object or vector
+#' @param apr if TRUE means the periodic/annual interest rate will be adjusted to the payment periodicity by division, otherwise geometric
+#' @param now is the date for valuation
+#' @param drop.after.now if TRUE drops cash flows after now
+#' @param adjdisc is there for a forgotten reason
+#' @export
+#' @examples 
+#' fv.z(.1,zoo(1:10,11:20))
+
 fv.z=function(i,cf,freq=1,apr=FALSE,now=NULL,drop.after.now=TRUE,adjdisc=NULL) {
   if(!is.null(adjdisc)) apr=!adjdisc
   if(!is.zoo(cf)) {
