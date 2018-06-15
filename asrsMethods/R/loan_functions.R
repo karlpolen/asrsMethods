@@ -129,3 +129,23 @@ loanamort=function(r=NULL,bal0=NULL,pmt=NULL,n=NULL,apr=FALSE,start=NULL,freq=1)
   ans$int=int
   return(ans)
 }
+
+#' Simple interest
+#' 
+#' A function to calculate simple interest on a loan (handy for preferred return calculations with annual or quarterly compounding terms)
+#' @param i is the annual interest rate (an apr, will be divided by 365 to get a daily rate)
+#' @param cf is the cash flow, a zoo object
+#' @param start is the start day for the calculation (default is first day in cf)
+#' @param end is the end day for the calculation (default is last day in cf)
+#' @keywords loan
+#' @export
+#' @examples 
+#' simple.interest.z(.1, zoo(c(1,2),as.Date("2018-1-1")+c(3,5)),start=as.Date("2018-1-1"),end=as.Date("2018-1-31"))
+#'
+simple.interest.z=function(i,cf,start=time(cf)[1],end=lastinvec(time(cf))) {
+  cf.h=cf[time(cf)>=start]
+  cf.h=cf.h[time(cf.h)<=end]
+  days=as.numeric(end-time(cf.h))
+  int=i*(days/365)*cf.h
+  return(sum(int))
+}
