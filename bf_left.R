@@ -1,19 +1,5 @@
 
-#tvpi
-tvpi <- function(cf) {
-  if(any(is.na(cf))) return(NA)
-  if(0==sum(cf[cf<0])) {return(NA)}
-  -sum(cf[cf>0])/sum(cf[cf<0])
-}
-#payback
-payback <- function(cf) {
-  cumcf=cumsum(cf)
-  cumcfneg=rev(cumcf<0)
-  pb=sum(cummax(cumcfneg))
-  ans=pb
-  if (pb==length(cf)) {ans=NA}
-  ans
-}
+
 #performance report
 invest.measures=function(cf,disc,f=Frequency) {
   cf.irr=100*irr(cf,frequ=f)
@@ -189,50 +175,6 @@ monthadd=function(start,n) {
   ans
 }
 
-mergesum.z=function(x,...) {
-  mt=merge(x,...,fill=0)
-  if(is.null(dim(mt))) return(mt)
-  zoo::zoo(rowSums(mt),time(mt))
-}
-
-mergelist.z=function(z.list) {
-  require(zoo)
-  listlen=length(z.list)
-  if (listlen==0) return(z.list)
-  if (listlen==1) {
-    ans=matrix(unlist(z.list),ncol=1)
-    colnames(ans)=names(z.list)
-    return(ans)
-    }
-  len.each=lapply(z.list,length)
-  len.idx=which(len.each==0)
-  for (i in len.idx) {
-    z.list[[i]]=zoo(0,today())
-  }
-  ans=merge(z.list[[1]],z.list[[2]],fill=0)
-  if (listlen==2) {
-    colnames(ans)=names(z.list)
-    return(ans)
-  }
-  for (k in 3:(listlen)) {
-    ans=merge(ans,z.list[[k]],fill=0)
-  }
-  colnames(ans)=names(z.list)
-  return(ans)
-}
-zoosum = function(...) {
-  sumz = merge(...)
-  if(is.null(dim(sumz))) return(sumz)
-  zoo(rowSums(sumz, na.rm = TRUE), time(sumz))
-}
-addtotal.list = function(x) {
-  total = do.call(zoosum, x)
-  x$Total = total
-  return(x)
-}
-merge0 = function(...) {
-  merge(..., fill = 0)
-}
 #create a zoo object with global variable defaults
 fullzoo=function(x=rep(0,Term),start=Start,end=End,frequency=Frequency,growth=0,lag=0,warn=FALSE) {
   if (length(x)==1) {
@@ -1084,26 +1026,6 @@ coneplot=function(return,annual_expected_return,annual_standard_deviation,
   return(x)
 }
 
-unzoo=function(zoo.object,wide=TRUE,dataname="Value",datename="Date",category="Categories") {
-  if(!is.zoo(zoo.object)) stop("not a zoo object")
-  t=time(zoo.object)
-  v=coredata(zoo.object)
-  if(is.null(dim(zoo.object))) {
-    ans=data.frame(t,v)
-    colnames(ans)=c(datename,dataname)
-    return(ans)
-  }
-  ans=as.data.frame(v)
-  columnames=c(datename,colnames(v))
-  ans=cbind(t,ans)
-  colnames(ans)=columnames
-  if(wide) return(ans)
-  require(tidyr)
-  colnames(ans)=c("Date",colnames(v))
-  ans=gather(ans,cats,value,-Date)
-  colnames(ans)=c(datename,category,dataname)
-  return(ans)
-}
 
 incentfee.rev=function(nav,cf,cu,pref=.08,cry=.2,fre=4) {
   #
@@ -1230,26 +1152,4 @@ display.palette=function(pal=IMD.palette()) {
 }
 PME.palette=function(){
   return(c("#C05640", "#EDD170", "#1ECFD6", "#0878A4", "#003D73"))
-}
-
-
-#Copeland build from IMD\Karl\R projects\Functions.R
-
-gd=function(x) {
-  exp(cumsum(log(1+x)))
-}
-
-gdminus1=function(x,one=1) {
-  temp=gd(x)
-  temp-matrix(one,nrow=nrow(x),ncol=ncol(x),byrow=TRUE)
-}
-
-gdweight=function(x){
-  temp=gd(x)
-  temp/matrix(rowSums(temp),ncol=ncol(x),nrow=nrow(x))
-}
-gg=function(x,variable.name="Variable",value.name="Value") {
-  melt(unzoo(x),id.vars="Date",
-       variable.name=variable.name,
-       value.name=value.name)
 }
