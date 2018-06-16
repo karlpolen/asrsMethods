@@ -149,3 +149,49 @@ simple.interest.z=function(i,cf,start=time(cf)[1],end=lastinvec(time(cf))) {
   int=i*(days/365)*cf.h
   return(sum(int))
 }
+
+
+#' line of credit function
+#' 
+#' finances a cash 05flow with a revolving line of credit
+#' @param cf is the cash flow vector
+#' @param ir is the interest rate (same periodicity as cash flow)
+#' @param beg is the beginning balance defaults to zero
+#' @keywords loan
+#' @export
+#' @examples 
+#' lineofcredit(c(-1,.1,2),.05)
+#args are beginning balance (default=0), interest rate and a cash flow
+#calculates a line of credit assuming all negative cash is financed
+#by the LOC. Interest is calculated on the average loan balance beginning 
+#of period and end of period.  
+#returns in a list the ending loan balance, interest expense and any leftover cash
+#sign convention -- cash flows negative is cash out, positive cash in --
+#for loan balance -- positive number reflects a loan balance
+#uses solve to find answer to system of linear equations
+lineofcredit=function(cf,ir,beg=0) {
+  begbal=vector()
+  begbal[1]=beg
+  endbal=vector()
+  intexp=vector()
+  remain=vector()
+  for (i in 1:length(cf)) {
+    if(cf[i]>=((1+(ir/2))*begbal[i])) {
+      intexp[i]=(ir/2)*begbal[i]
+      endbal[i]=begbal[i+1]=0
+      remain[i]=cf[i]-begbal[i]+endbal[i]-intexp[i]
+    } else {
+      coef=matrix(c(1,-1,-1,ir/2),byrow=TRUE,nrow=2)
+      ys=c(cf[i]-begbal[i],-ir/2*begbal[i])
+      ans=solve(coef,ys)
+      intexp[i]=ans[1]
+      endbal[i]=begbal[i+1]=ans[2]
+      remain[i]=cf[i]-begbal[i]+endbal[i]-intexp[i]
+    }
+  }
+  ans=list()
+  ans$intexp=intexp
+  ans$endbal=endbal
+  ans$remain=remain
+  return(ans)
+}
