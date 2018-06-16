@@ -152,3 +152,30 @@ fv.tr=function(CF,TR,ValDate=NULL) {
 grow = function (c=1,t=term,g) {
   c*((1+g)^(0:(t-1)))
 }
+
+#' constant growth
+#' 
+#' constant growth with option to return a zooreg object
+#' @param r is the rate of growth
+#' @param c is the starting value
+#' @param n is the number of periods
+#' @param freq is the frequency 1 for annual, 12 for monthly, etc
+#' @param start is the starting date
+#' @param retclass defaults to zoo
+#' @keywords present_value
+#' @export
+#' @examples 
+#' grow.z(.1,1,10)
+grow.z=function(r,c,n,freq=1,start=1,retclass='zoo') {
+  if('zoo'==retclass & start==1) {
+    if(is.zoo(c)) start=time(c)
+  }
+  n=n*freq
+  r=-1+(1+r)^(1/freq)
+  ts=as.numeric(c)*(1+r)^(0:(n-1))
+  if ('zoo'==retclass) {
+    ts=zooreg(ts,start=start,freq=freq)
+  }
+  return(ts)
+}
+

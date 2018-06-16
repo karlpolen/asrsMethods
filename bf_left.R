@@ -314,17 +314,3 @@ lineofcredit=function(cf,ir,beg=0) {
   ans$remain=remain
   return(ans)
 }
-
-grow.z=function(r,c,n,freq=1,start=1,retclass='zoo') {
-  if('zoo'==retclass & start==1) {
-    if(is.zoo(c)) start=time(c)
-  }
-  n=n*freq
-  r=-1+(1+r)^(1/freq)
-  ts=as.numeric(c)*(1+r)^(0:(n-1))
-  if ('zoo'==retclass) {
-    ts=zooreg(ts,start=start,freq=freq)
-  }
-  return(ts)
-}
-
