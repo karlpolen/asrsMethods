@@ -247,3 +247,36 @@ make.table=function(x,by='year',time.horizontal=TRUE,fun=sum) {
   return(table)
 }
 
+#' blankfun
+#' 
+#' convenice function to format numbers
+#' @param x is a number
+#' @param digits is number of digits for rounding
+#' @param addtxt is text to append after a number (e.g. "%")
+#' @param big.mark is the separator every three digits, usually ","
+#' @keywords convenience
+#' @export
+#' @examples 
+#' blankfun(3.1416,2,"",",")
+blankfun=function(x,digits,addtxt,big.mark) {
+  ifelse((x==0|is.na(x)|is.nan(x)),'   ',
+         paste0(format(round(x,digits),big.mark=big.mark,nsmall=digits),addtxt)
+  )
+}
+
+
+#' format a vector of numbers
+#' 
+#' uses blankfun with sapply
+#' @param x is the vector of numbers
+#' @param digits is the number of digits for rounding
+#' @param addtxt is to text to add after each number
+#' @param big.mark defaults to ","
+#' @keywords convenience
+#' @export
+#' @examples 
+#' formatwblank(sqrt(1:4),2)
+formatwblank=function(x,digits=0,addtxt=NULL,big.mark=',') {
+  sapply(x,blankfun,digits,addtxt,big.mark)
+}
+

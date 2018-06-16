@@ -315,15 +315,6 @@ lineofcredit=function(cf,ir,beg=0) {
   return(ans)
 }
 
-
-blankfun=function(x,digits,addtxt,big.mark) {
-  ifelse((x==0|is.na(x)|is.nan(x)),'   ',
-         paste0(format(round(x,digits),big.mark=big.mark,nsmall=digits),addtxt)
-         )
-}
-formatwblank=function(x,digits=0,addtxt=NULL,big.mark=',') {
-  sapply(x,blankfun,digits,addtxt,big.mark)
-}
 grow.z=function(r,c,n,freq=1,start=1,retclass='zoo') {
   if('zoo'==retclass & start==1) {
     if(is.zoo(c)) start=time(c)

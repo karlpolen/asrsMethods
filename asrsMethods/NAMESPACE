@@ -2,8 +2,10 @@
 
 S3method(window,list)
 export(addtotal.list)
+export(blankfun)
 export(coneplot)
 export(firstinvec)
+export(formatwblank)
 export(fv.tr)
 export(fv.z)
 export(gd)
