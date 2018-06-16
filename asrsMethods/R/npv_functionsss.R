@@ -139,3 +139,16 @@ fv.tr=function(CF,TR,ValDate=NULL) {
   return(zoo(value,ValDate))
 }
 
+#' constant growth
+#' 
+#' create a vector with constant rate of change
+#' @param c is starting value
+#' @param t is number of periods to grow
+#' @param g is the growth rate
+#' @keywords present_value
+#' @export
+#' @examples 
+#' grow(1,10,.05)
+grow = function (c=1,t=term,g) {
+  c*((1+g)^(0:(t-1)))
+}
