@@ -1,3 +1,117 @@
+#' pe performance
+#' 
+#' calculate pe performance metrics
+#' @param cf is cashflow zoo object
+#' @param ind is a total return index zoo object
+#' @keypards private_equity
+#' @export
+#' @examples 
+#' dates=as.Date("2018-1-1")+c(1,31,61)
+#' cf=zoo(c(-100,5,110),dates)
+#' ind=zoo(c(100,101,102),dates)
+#' pestats(cf,ind) 
+pestats=function(cf,ind)  {
+  ans=list()
+  ans$tvpi=NA
+  ans$irr=NA
+  ans$pme=NA
+  ans$pme.plus=NA
+  ans$alpha=NA
+  ans$ind.irr=NA
+  ans$pme.wealth=NA
+  ans$sb=NA
+  ans$ss=NA
+  if(length(cf)<=1)  return(ans)
+  if(all(cf<=0)) return(ans)
+  if(all(cf>=0)) return(ans)
+  ans$tvpi=tvpi(cf)
+  ans$irr=irr.z(cf,gips=TRUE)
+  cf.neg=cf.pos=cf
+  cf.pos[cf.pos<0]=0
+  cf.neg[cf.neg>0]=0
+  if(all(!(is.na(ind)))) {
+    fvfactor=as.numeric(lastinvec(ind))/ind
+    ans$pme=-sum(cf.pos*fvfactor)/sum(cf.neg*fvfactor)
+    cf.fv=cf*fvfactor
+    ans$alpha=log(1+irr.z(cf.fv,gips=TRUE))
+    logpe.irr=log(1+ans$irr)
+    logdm.irr=logpe.irr-ans$alpha
+    ans$ind.irr=-1+exp(logdm.irr)
+    ans$pme.wealthdiff=sum(cf.fv)
+    sb=-cf.neg/ind
+    if(length(which(cf.pos>0))>1) {
+      sharesterm=as.numeric(lastinvec(cf.pos)/lastinvec(ind))
+      stosell=sum(sb)-sharesterm
+      cf.posxlast=cf.pos
+      cf.posxlast[length(cf.pos)]=0
+      scale=stosell/sum(cf.posxlast/ind)
+      cf.pos.scaled=cf.pos*scale
+      cf.pos.scaled[length(cf.pos)]=cf.pos[length(cf.pos)]
+      ans$pme.plus=irr.z(mergesum.z(cf.pos.scaled,cf.neg),gips=TRUE) } else {
+        cf.pos.scaled=cf.pos
+        cf.pos.scaled[length(cf.pos)]=(sum(sb))*ind[length(ind)]
+        ans$pme.plus=irr.z(mergesum.z(cf.pos.scaled,cf.neg),gips=TRUE)
+      }
+    
+    #   lndelt=-sum(fvfactor*cf)
+    #   cf.ln=cf
+    #   cf.ln[length(cf.ln)]=lndelt+cf.ln[length(cf.ln)]
+    #   ans$pme.ln=irr.z(cf.ln,gips=TRUE)
+    ans$sb=sb
+    ans$ss=cf.pos.scaled/ind
+  }
+  
+  return(ans)
+}
+
+#' evolution of pe performance
+#' 
+#' @param cf is a cash flow zoo object
+#' @param val is zoo object of valuations
+#' @param idx ia a zoo object total return index
+#' @keywords private_equity
+#' @export
+#' @examples 
+#' dates=as.Date("2018-1-1")+c(1,31,61)
+#' cf=zoo(c(-100,5,10),dates)
+#' ind=zoo(c(100,101,102),dates)
+#' val=zoo(c(100,100),dates[-1])
+#' pestats(cf,val,ind) 
+pe.performance.roll=function(cf,val,idx) {
+  #calculate pe performance statististics 
+  #cf is cash flow as a zoo object, length >= 1, must contain a negative value
+  #val is values as a zoo object, length >=1
+  #idx is index as a zoo object, must contain index value for all dates in cf and val
+  #returns a 5 column matrix
+  ans=matrix(0,nrow=length(val),col=6)
+  colnames(ans)=c('Date','IRR','TVPI','PME','PME+','Direct Alpha')
+  if(!is.zoo(cf)|!is.zoo(val)|!is.zoo(idx)) stop('pe.performance.roll arguments must all be zoo objects')
+  if (!all(index(cf) %in% index(idx))) stop('index object does not contain all dates in cash flow ')
+  if (!all(index(val) %in% index(idx))) stop('index object does not contain all dates in values')
+  for (i in length(val)) {
+    v.i=val[i]
+    date.i=index(v.i)
+    cf.i=cf[index(cf)<=date.i]
+    cf.i=mergesum.z(cf.i,v.i)
+    dind=match(index(cf.i),index(idx))
+    ans.i=pestats(cf.i,idx[dind])
+    ans[i,1]=date.i
+    ans[i,2]=ans.i$irr
+    ans[i,3]=ans.i$tvpi
+    ans[i,4]=ans.i$pme
+    ans[i,5]=ans.i$pme.plus 
+    ans[i,6]=ans.i$alpha
+  }
+  ans.l=list()
+  ans.l$irr=zoo(ans[,2],ans[,1])
+  ans.l$tvpi=zoo(ans[,3],ans[,1])
+  ans.l$pme=zoo(ans[,4],ans[,1])
+  ans.l$pme.plus=zoo(ans[,5],ans[,1])
+  ans.l$alpha=zoo(ans[,6],ans[,1])
+  return(ans.l)
+}
+
+
 #' incentive fee reverse engineer
 #'
 #' reverse engineer incentive fee from known performance data
