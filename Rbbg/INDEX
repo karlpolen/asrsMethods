@@ -1,0 +1,4 @@
+blh                           Get Bloomberg Historical Data
+blp                           Get Bloomberg Reference Data
+blpConnect                    Open or shut a connection to Bloomberg
+bls                           Get Bloomberg Bulk Data
