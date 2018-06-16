@@ -11,4 +11,6 @@ RoxygenNote: 6.0.1
 Imports: zoo,
     lubridate,
     reshape2,
-    ggplot2
+    ggplot2,
+    quantmod,
+    Rbbg
