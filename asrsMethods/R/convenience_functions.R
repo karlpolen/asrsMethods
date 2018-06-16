@@ -200,4 +200,50 @@ unzoo=function(zoo.object,wide=TRUE,dataname="Value",datename="Date",category="C
   return(ans)
 }
 
+#' window a list
+#' 
+#' apply window to all members of a list of zoo objects
+#' @param x is the zoo list
+#' @param start is the start date
+#' @param end is the end date
+#' @keywords convenience
+#' @export
+#' @examples 
+#' cf1=zoo(1:20, as.Date("2018-1-1")+(1:20*40))
+#' cf2=zoo(1:20, as.Date("2018-1-1")+(1:20*50))
+#' x=list(cf1,cf2)
+#' window.list(x,as.Date("2018-1-1),as.Date("2018-12-31))
+window.list=function(x,start,end) {
+  ans=x
+  for (i in 1:length(x)) {
+    ans[[i]]=window(x[[i]],start=start,end=end)
+  }
+  return(ans)
+}
+
+#' zoo list to a table
+#' 
+#' make a table out of a list of zoo objects organized by year, month or quarter
+#' @param x is the zoo list
+#' @param by is "year", "quarter" or "month"
+#' @param time.horizontal makes time as the columns if TRUE otherwise as rows
+#' @param fun is function for aggregating by time frame, defaults to sum
+#' @keywords convenience
+#' @export
+#' @examples 
+#' cf1=zoo(1:20, as.Date("2018-1-1")+(1:20*40))
+#' cf2=zoo(1:20, as.Date("2018-1-1")+(1:20*50))
+#' x=list(cf1,cf2)
+#' make.table(x)
+make.table=function(x,by='year',time.horizontal=TRUE,fun=sum) {
+  table=do.call(merge0,x)
+  if (by=='year') table=aggregate(table,by=year(time(table)),fun)
+  if (by=='quarter') table=aggregate(table,by=as.yearqtr(time(table)),fun)
+  if (by=='month') table=aggregate(table,by=as.yearmon(time(table)),fun)
+  timeline=time(table)
+  table=as.matrix(table)
+  rownames(table)=as.character(timeline)
+  if(time.horizontal) table=t(table)
+  return(table)
+}
 

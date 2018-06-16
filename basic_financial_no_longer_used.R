@@ -234,6 +234,16 @@ casemanager=function(fun,x,...,argnames,ansnames) {
   return(cbind(case.mat,answers))
 }
 
+lsp <- function(package, all.names = FALSE, pattern) 
+{
+  package <- deparse(substitute(package))
+  ls(
+    pos = paste("package", package, sep = ":"), 
+    all.names = all.names, 
+    pattern = pattern
+  )
+}
+
 
 
 ## replacement for tseries get.hist.quote

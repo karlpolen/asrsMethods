@@ -337,33 +337,3 @@ grow.z=function(r,c,n,freq=1,start=1,retclass='zoo') {
   return(ts)
 }
 
-window.list=function(x,start,end) {
-  ans=x
-  for (i in 1:length(x)) {
-    ans[[i]]=window(x[[i]],start=start,end=end)
-  }
-  return(ans)
-}
-
-make.table=function(x,by='year',time.horizontal=TRUE,fun=sum) {
-  table=do.call(merge0,x)
-  if (by=='year') table=aggregate(table,by=year(time(table)),fun)
-  if (by=='quarter') table=aggregate(table,by=as.yearqtr(time(table)),fun)
-  if (by=='month') table=aggregate(table,by=as.yearmon(time(table)),fun)
-  timeline=time(table)
-  table=as.matrix(table)
-  rownames(table)=as.character(timeline)
-  if(time.horizontal) table=t(table)
-  return(table)
-}
-
-lsp <- function(package, all.names = FALSE, pattern) 
-{
-  package <- deparse(substitute(package))
-  ls(
-    pos = paste("package", package, sep = ":"), 
-    all.names = all.names, 
-    pattern = pattern
-  )
-}
-
