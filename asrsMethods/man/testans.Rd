@@ -6,6 +6,9 @@
 \usage{
 testans(ans)
 }
+\arguments{
+\item{ans}{the result of a call to gpcomp}
+}
 \description{
 a convenience function to test the result of gpcomp
 }

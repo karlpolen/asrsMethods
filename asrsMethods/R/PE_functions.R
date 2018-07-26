@@ -3,7 +3,7 @@
 #' calculate pe performance metrics
 #' @param cf is cashflow zoo object
 #' @param ind is a total return index zoo object
-#' @keypards private_equity
+#' @keywords private_equity
 #' @export
 #' @examples 
 #' dates=as.Date("2018-1-1")+c(1,31,61)
@@ -69,7 +69,7 @@ pestats=function(cf,ind)  {
 #' calculate irr for pe fund and related index
 #' @param cf is cashflow zoo object
 #' @param ind is a total return index zoo object
-#' @keypards private_equity
+#' @keywords private_equity
 #' @export
 #' @examples 
 #' dates=as.Date("2018-1-1")+c(1,31,61)
@@ -459,7 +459,7 @@ wf = function(w, c) {
 #' test gpcomp
 #' 
 #' a convenience function to test the result of gpcomp
-#' @parm ans the result of a call to gpcomp
+#' @param ans the result of a call to gpcomp
 #' @keywords private_equity
 #' @export
 #' @examples  

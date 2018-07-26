@@ -20,3 +20,4 @@ cf=zoo(c(-100,5,110),dates)
 ind=zoo(c(100,101,102),dates)
 pe_irr(cf,ind) 
 }
+\keyword{private_equity}
