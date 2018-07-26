@@ -64,6 +64,39 @@ pestats=function(cf,ind)  {
   return(ans)
 }
 
+#' pe irr
+#' 
+#' calculate irr for pe fund and related index
+#' @param cf is cashflow zoo object
+#' @param ind is a total return index zoo object
+#' @keypards private_equity
+#' @export
+#' @examples 
+#' dates=as.Date("2018-1-1")+c(1,31,61)
+#' cf=zoo(c(-100,5,110),dates)
+#' ind=zoo(c(100,101,102),dates)
+#' pe_irr(cf,ind) 
+pe_irr=function(cf,ind)  {
+  ans=c(NA,NA)
+  names(ans)=c("FundIRR","IndexIRR")
+  if(length(cf)<=1)  return(ans)
+  if(all(cf<=0)) return(ans)
+  if(all(cf>=0)) return(ans)
+  ans[1]=irr.z(cf,gips=TRUE)
+  cf.neg=cf.pos=cf
+  cf.pos[cf.pos<0]=0
+  cf.neg[cf.neg>0]=0
+  if(all(!(is.na(ind)))) {
+    fvfactor=as.numeric(lastinvec(ind))/ind
+    cf.fv=cf*fvfactor
+    alpha=log(1+irr.z(cf.fv,gips=TRUE))
+    logpe.irr=log(1+ans[1])
+    logdm.irr=logpe.irr-alpha
+    ans[2]=-1+exp(logdm.irr)
+    }
+  return(ans)
+}
+
 #' evolution of pe performance
 #' 
 #' @param cf is a cash flow zoo object
