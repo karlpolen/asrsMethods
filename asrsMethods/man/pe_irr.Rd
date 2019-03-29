@@ -18,6 +18,6 @@ calculate irr for pe fund and related index
 dates=as.Date("2018-1-1")+c(1,31,61)
 cf=zoo(c(-100,5,110),dates)
 ind=zoo(c(100,101,102),dates)
-pe_irr(cf,ind) 
+pe_irr(cf,ind)
 }
 \keyword{private_equity}

@@ -13,7 +13,6 @@ testans(ans)
 a convenience function to test the result of gpcomp
 }
 \examples{
- 
 testans(ans)
 }
 \keyword{private_equity}

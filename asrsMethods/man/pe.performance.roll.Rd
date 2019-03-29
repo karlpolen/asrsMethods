@@ -21,6 +21,6 @@ dates=as.Date("2018-1-1")+c(1,31,61)
 cf=zoo(c(-100,5,10),dates)
 ind=zoo(c(100,101,102),dates)
 val=zoo(c(100,100),dates[-1])
-pestats(cf,val,ind) 
+pestats(cf,val,ind)
 }
 \keyword{private_equity}

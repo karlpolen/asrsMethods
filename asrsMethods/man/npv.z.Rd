@@ -4,8 +4,8 @@
 \alias{npv.z}
 \title{A NPV function}
 \usage{
-npv.z(i, cf, freq = 1, apr = FALSE, now = NULL, drop.bef.now = TRUE,
-  adjdisc = NULL)
+npv.z(i, cf, freq = 1, apr = FALSE, now = NULL,
+  drop.bef.now = TRUE, adjdisc = NULL)
 }
 \arguments{
 \item{i}{is the interest rate}

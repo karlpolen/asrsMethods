@@ -1,15 +1,15 @@
 #' pe performance
-#' 
+#'
 #' calculate pe performance metrics
 #' @param cf is cashflow zoo object
 #' @param ind is a total return index zoo object
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' dates=as.Date("2018-1-1")+c(1,31,61)
 #' cf=zoo(c(-100,5,110),dates)
 #' ind=zoo(c(100,101,102),dates)
-#' pestats(cf,ind) 
+#' pestats(cf,ind)
 pestats=function(cf,ind)  {
   ans=list()
   ans$tvpi=NA
@@ -52,7 +52,7 @@ pestats=function(cf,ind)  {
         cf.pos.scaled[length(cf.pos)]=(sum(sb))*ind[length(ind)]
         ans$pme.plus=irr.z(mergesum.z(cf.pos.scaled,cf.neg),gips=TRUE)
       }
-    
+
     #   lndelt=-sum(fvfactor*cf)
     #   cf.ln=cf
     #   cf.ln[length(cf.ln)]=lndelt+cf.ln[length(cf.ln)]
@@ -60,22 +60,22 @@ pestats=function(cf,ind)  {
     ans$sb=sb
     ans$ss=cf.pos.scaled/ind
   }
-  
+
   return(ans)
 }
 
 #' pe irr
-#' 
+#'
 #' calculate irr for pe fund and related index
 #' @param cf is cashflow zoo object
 #' @param ind is a total return index zoo object
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' dates=as.Date("2018-1-1")+c(1,31,61)
 #' cf=zoo(c(-100,5,110),dates)
 #' ind=zoo(c(100,101,102),dates)
-#' pe_irr(cf,ind) 
+#' pe_irr(cf,ind)
 pe_irr=function(cf,ind)  {
   ans=c(NA,NA)
   names(ans)=c("FundIRR","IndexIRR")
@@ -98,20 +98,20 @@ pe_irr=function(cf,ind)  {
 }
 
 #' evolution of pe performance
-#' 
+#'
 #' @param cf is a cash flow zoo object
 #' @param val is zoo object of valuations
 #' @param idx ia a zoo object total return index
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' dates=as.Date("2018-1-1")+c(1,31,61)
 #' cf=zoo(c(-100,5,10),dates)
 #' ind=zoo(c(100,101,102),dates)
 #' val=zoo(c(100,100),dates[-1])
-#' pestats(cf,val,ind) 
+#' pestats(cf,val,ind)
 pe.performance.roll=function(cf,val,idx) {
-  #calculate pe performance statististics 
+  #calculate pe performance statististics
   #cf is cash flow as a zoo object, length >= 1, must contain a negative value
   #val is values as a zoo object, length >=1
   #idx is index as a zoo object, must contain index value for all dates in cf and val
@@ -132,7 +132,7 @@ pe.performance.roll=function(cf,val,idx) {
     ans[i,2]=ans.i$irr
     ans[i,3]=ans.i$tvpi
     ans[i,4]=ans.i$pme
-    ans[i,5]=ans.i$pme.plus 
+    ans[i,5]=ans.i$pme.plus
     ans[i,6]=ans.i$alpha
   }
   ans.l=list()
@@ -351,7 +351,7 @@ pfd.return=function(cf,int,freq=4,mdate=NA) {
 }
 
 #' general partner compensation
-#' 
+#'
 #' a function to evaluate gp compensation for one or more returns
 #' @param dmat a data frame describing the deal structure with columns for asset management fee, pref, catchup and carry
 #' @param ret one or more returns as a vector
@@ -359,7 +359,7 @@ pfd.return=function(cf,int,freq=4,mdate=NA) {
 #' @param invcost cost of investments (may be different from cost because of asset management fee)
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' peinv=100
 #' pecap=102
 #' dmat.pe=data.frame(am=0,pref=(.08*pecap),catchup=.5,carry=.2)
@@ -369,7 +369,7 @@ gpcomp = function(dmat, ret, capital = 100, invcost = 100) {
   pref = dmat$pref
   catchup = dmat$catchup
   carry = dmat$carry
-  if (any(1 < c(catchup, carry))) 
+  if (any(1 < c(catchup, carry)))
     stop("catchup and carry must be stated as decimals<1")
   pref = c(pref, 1e+16)
   am = c(am, 0)
@@ -406,7 +406,7 @@ gpcomp = function(dmat, ret, capital = 100, invcost = 100) {
     catchuplayer = 0
     if (cu > cy) {
       catchuplayer = (lpsofar * cy)/(cu - cy)
-      if (cu < 1) 
+      if (cu < 1)
         catchuplayer = min(catchuplayer, lpshort/(1 - cu))
       stack = c(stack, catchuplayer)
       lpcut = c(lpcut, (1 - cu))
@@ -423,10 +423,10 @@ gpcomp = function(dmat, ret, capital = 100, invcost = 100) {
   }
   ansmat = matrix(0, nrow = length(stack), ncol = length(ret))
   for (i in 1:length(ret)) {
-    ansmat[, i] = wf(stack, ret[i])[-(1 + length(stack))]
+    ansmat[, i] = wf(stack[-length(stack)], ret[i])
   }
   ans = list()
-  ans$lpshare = matrix(lpcut, nrow = length(stack), ncol = length(ret)) * 
+  ans$lpshare = matrix(lpcut, nrow = length(stack), ncol = length(ret)) *
     ansmat
   rownames(ans$lpshare) = typ
   ans$gpshare = ansmat - ans$lpshare
@@ -440,13 +440,13 @@ gpcomp = function(dmat, ret, capital = 100, invcost = 100) {
 
 
 #' waterfall
-#' 
+#'
 #' given waterfall w in dollars and available cash c, distribute the cash to the waterfall
 #' @param w the waterfall as vector
 #' @param c the amount of cash to distribute
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' wf(c(1,2,3),5)
 wf = function(w, c) {
   x = c - cumsum(w)
@@ -457,39 +457,39 @@ wf = function(w, c) {
 }
 
 #' test gpcomp
-#' 
+#'
 #' a convenience function to test the result of gpcomp
 #' @param ans the result of a call to gpcomp
 #' @keywords private_equity
 #' @export
-#' @examples  
+#' @examples
 #' testans(ans)
 testans = function(ans) {
   (colSums(ans$lpshare)) + (colSums(ans$gpshare))
 }
 
 #' waterfall
-#' 
+#'
 #' given waterfall w in dollars and available cash c, distribute the cash to the waterfall
 #' @param w the waterfall as vector
 #' @param c the amount of cash to distribute
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' wf(c(1,2,3),5)
 waterfall=function(w,c){
   wf(w,c)
 }
 
 #' pe performance with cash flow data from file
-#' 
+#'
 #' @param cf.filename the name of the file
 #' @param bench.ticker.vec a vector of tickers
 #' @param useallvals limts to "C" and "V" factors if FALSE
 #' @param service is "yahoo" or "bloomberg"
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' file="filename"
 #' pe.performance(file)
 pe.performance=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'),
@@ -499,10 +499,10 @@ pe.performance=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'),
   # in csv format, column one "Date" is date yyyy/mm/dd
   # column two is cash flow, labeled "Amount" , negative = draw
   # column three, labeled "Type", is a code "C" means a cash flow and "V" means a value, only the last value is used
-  #bench.ticker.lst is a a vetor of ticker names available 
+  #bench.ticker.lst is a a vetor of ticker names available
   # at yahoo finance
   #Returns a matrix with a column for each benchmark
-  #Rows are 
+  #Rows are
   # IRR
   # TVPI
   # Realized %
@@ -524,8 +524,8 @@ pe.performance=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'),
     x=x[-badrows,]
   }
   x=subset(x,x$Amount!=0|x$Type=="V")
-  
-  
+
+
   if(useallvals) {
     cf=aggregate(x$Amount,by=list(x$Date),sum)
     cf.wval=zoo(cf[,2],cf[,1])
@@ -588,14 +588,14 @@ pe.performance=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'),
 }
 
 #' pe performance with cash flow data from file
-#' 
+#'
 #' @param cf.filename the name of the file
 #' @param bench.ticker.vec a vector of tickers
 #' @param useallvals limts to "C" and "V" factors if FALSE
 #' @param service is "yahoo" or "bloomberg"
 #' @keywords private_equity
 #' @export
-#' @examples 
+#' @examples
 #' file="filename"
 #' pe.performance.return.index(file)
 pe.performance.return.index=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'),
@@ -605,10 +605,10 @@ pe.performance.return.index=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'
   # in csv format, column one "Date" is date yyyy/mm/dd
   # column two is cash flow, labeled "Amount" , negative = draw
   # column three, labeled "Type", is a code "C" means a cash flow and "V" means a value, only the last value is used
-  #bench.ticker.lst is a a vetor of ticker names available 
+  #bench.ticker.lst is a a vetor of ticker names available
   # at yahoo finance
   #Returns a matrix with a column for each benchmark
-  #Rows are 
+  #Rows are
   # IRR
   # TVPI
   # Realized %
@@ -630,8 +630,8 @@ pe.performance.return.index=function(cf.filename,bench.ticker.vec=c('^RUT','SPY'
     x=x[-badrows,]
   }
   x=subset(x,x$Amount!=0|x$Type=="V")
-  
-  
+
+
   if(useallvals) {
     cf=aggregate(x$Amount,by=list(x$Date),sum)
     cf.wval=zoo(cf[,2],cf[,1])
