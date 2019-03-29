@@ -422,6 +422,7 @@ gpcomp = function(dmat, ret, capital = 100, invcost = 100) {
     }
   }
   ansmat = matrix(0, nrow = length(stack), ncol = length(ret))
+  #update 3/29/2019
   for (i in 1:length(ret)) {
     ansmat[, i] = wf(stack[-length(stack)], ret[i])
   }
