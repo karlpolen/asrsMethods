@@ -14,7 +14,7 @@ irrgap.z=function(i,cf.z,end=NA) {
   if("Date"!=class(time(cf.z))) {warning("need Date class for zoo index"); return(NA)}
   i=freq*(((1+i)^(1/freq))-1)
   if(!is.na(end)) cf.z=mergesum.z(cf.z,zoo(0,end))
-  tdif=as.numeric(index(cf.z)-(index(cf.z)[1]))
+  tdif=as.numeric(zoo::index(cf.z)-(zoo::index(cf.z)[1]))
   d=(1+(i/freq))^tdif
   v=sum(cf.z/d)
   -v*tail(d,1)
@@ -35,7 +35,7 @@ irr.z=function(cf.z,gips=FALSE) {
   if(length(cf.z)<=1) return(NA)
   if(all(cf.z<=0)) return(NA)
   if(all(cf.z>=0)) return(NA)
-  if(!is.zoo(cf.z)) {
+  if(!zoo::is.zoo(cf.z)) {
     timediff=-1+1:length(cf.z)
   } else {
     timeline=time(cf.z)
@@ -99,7 +99,7 @@ irr.z=function(cf.z,gips=FALSE) {
   # convert IRR to GIPS compliant if requested
   if (gips) {
     if(cf.z[1]==0)  cf.z=cf.z[-1]
-    dur=index(cf.z)[length(cf.z)]-index(cf.z)[1]
+    dur=zoo::index(cf.z)[length(cf.z)]-zoo::index(cf.z)[1]
     if(dur<irr.freq) ans=(1+ans)^((as.numeric(dur))/irr.freq)-1
   }
   return (ans)
