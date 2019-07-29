@@ -12,5 +12,4 @@ Imports: zoo,
     lubridate,
     reshape2,
     ggplot2,
-    quantmod,
-    Rbbg
+    quantmod
