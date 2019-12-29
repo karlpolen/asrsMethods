@@ -116,7 +116,7 @@ pe.performance.roll=function(cf,val,idx) {
   #val is values as a zoo object, length >=1
   #idx is index as a zoo object, must contain index value for all dates in cf and val
   #returns a 5 column matrix
-  ans=matrix(0,nrow=length(val),col=6)
+  ans=matrix(0,nrow=length(val), ncol=6)
   colnames(ans)=c('Date','IRR','TVPI','PME','PME+','Direct Alpha')
   if(!is.zoo(cf)|!is.zoo(val)|!is.zoo(idx)) stop('pe.performance.roll arguments must all be zoo objects')
   if (!all(index(cf) %in% index(idx))) stop('index object does not contain all dates in cash flow ')
