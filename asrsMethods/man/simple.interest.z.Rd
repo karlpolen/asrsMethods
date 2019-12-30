@@ -4,8 +4,7 @@
 \alias{simple.interest.z}
 \title{Simple interest}
 \usage{
-simple.interest.z(i, cf, start = time(cf)[1],
-  end = lastinvec(time(cf)))
+simple.interest.z(i, cf, start = time(cf)[1], end = lastinvec(time(cf)))
 }
 \arguments{
 \item{i}{is the annual interest rate (an apr, will be divided by 365 to get a daily rate)}

@@ -4,8 +4,13 @@
 \alias{coneplot}
 \title{cone plot}
 \usage{
-coneplot(return, annual_expected_return, annual_standard_deviation,
-  periodicity = c("y", "q", "m"), ylabel = NULL)
+coneplot(
+  return,
+  annual_expected_return,
+  annual_standard_deviation,
+  periodicity = c("y", "q", "m"),
+  ylabel = NULL
+)
 }
 \arguments{
 \item{return}{is the return}

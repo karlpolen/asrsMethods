@@ -4,8 +4,15 @@
 \alias{fv.z}
 \title{Future Value Function}
 \usage{
-fv.z(i, cf, freq = 1, apr = FALSE, now = NULL,
-  drop.after.now = TRUE, adjdisc = NULL)
+fv.z(
+  i,
+  cf,
+  freq = 1,
+  apr = FALSE,
+  now = NULL,
+  drop.after.now = TRUE,
+  adjdisc = NULL
+)
 }
 \arguments{
 \item{i}{is the periodic interest rate}
