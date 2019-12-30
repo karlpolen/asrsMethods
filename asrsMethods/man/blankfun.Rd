@@ -21,4 +21,3 @@ convenice function to format numbers
 \examples{
 blankfun(3.1416,2,"",",")
 }
-\keyword{convenience}
