@@ -4,8 +4,13 @@
 \alias{unzoo}
 \title{unzoo}
 \usage{
-unzoo(zoo.object, wide = TRUE, dataname = "Value", datename = "Date",
-  category = "Categories")
+unzoo(
+  zoo.object,
+  wide = TRUE,
+  dataname = "Value",
+  datename = "Date",
+  category = "Categories"
+)
 }
 \arguments{
 \item{zoo.object}{is the zoo object}
