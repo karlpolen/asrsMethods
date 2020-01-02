@@ -252,9 +252,8 @@ make.table=function(x,by='year',time.horizontal=TRUE,fun=sum) {
 #' convenice function to format numbers
 #' @param x is a number
 #' @param digits is number of digits for rounding
-#' @param addtxt is text to append after a number (e.g. "%")
+#' @param addtxt is text to append after a number 
 #' @param big.mark is the separator every three digits, usually ","
-#' @keywords convenience
 #' @export
 #' @examples 
 #' blankfun(3.1416,2,"",",")

@@ -4,8 +4,15 @@
 \alias{loanamort}
 \title{Loan amortization function}
 \usage{
-loanamort(r = NULL, bal0 = NULL, pmt = NULL, n = NULL,
-  apr = FALSE, start = NULL, freq = 1)
+loanamort(
+  r = NULL,
+  bal0 = NULL,
+  pmt = NULL,
+  n = NULL,
+  apr = FALSE,
+  start = NULL,
+  freq = 1
+)
 }
 \arguments{
 \item{r}{is the interest rate}

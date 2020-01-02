@@ -4,8 +4,12 @@
 \alias{pe.performance.return.index}
 \title{pe performance with cash flow data from file}
 \usage{
-pe.performance.return.index(cf.filename, bench.ticker.vec = c("^RUT",
-  "SPY"), useallvals = FALSE, service = "yahoo")
+pe.performance.return.index(
+  cf.filename,
+  bench.ticker.vec = c("^RUT", "SPY"),
+  useallvals = FALSE,
+  service = "yahoo"
+)
 }
 \arguments{
 \item{cf.filename}{the name of the file}
