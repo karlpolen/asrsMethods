@@ -6,6 +6,18 @@
 \usage{
 blankfun(x, digits, addtxt, big.mark)
 }
+\arguments{
+\item{x}{is a number}
+
+\item{digits}{is number of digits for rounding}
+
+\item{addtxt}{is text to append after a number (e.g. "%")}
+
+\item{big.mark}{is the separator every three digits, usually ","}
+}
 \description{
-blankfun
+convenice function to format numbers
+}
+\examples{
+blankfun(3.1416,2,"",",")
 }
