@@ -252,11 +252,11 @@ make.table=function(x,by='year',time.horizontal=TRUE,fun=sum) {
 #' convenice function to format numbers
 #' @param x is a number
 #' @param digits is number of digits for rounding
-#' @param addtxt is text to append after a number (e.g. "%")
-#' @param big.mark is the separator every three digits, usually ","
+#' @param addtxt is text to append after a number (e.g. "%").
+#' @param big.mark is the separator every three digits, usually ",".
+#' @export
 #' @examples 
 #' blankfun(3.1416,2,"",",")
-#' @export
 blankfun=function(x,digits,addtxt,big.mark) {
   ifelse((x==0|is.na(x)|is.nan(x)),'   ',
          paste0(format(round(x,digits),big.mark=big.mark,nsmall=digits),addtxt)

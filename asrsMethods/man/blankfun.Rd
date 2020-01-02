@@ -11,9 +11,9 @@ blankfun(x, digits, addtxt, big.mark)
 
 \item{digits}{is number of digits for rounding}
 
-\item{addtxt}{is text to append after a number (e.g. "%")}
+\item{addtxt}{is text to append after a number (e.g. "%").}
 
-\item{big.mark}{is the separator every three digits, usually ","}
+\item{big.mark}{is the separator every three digits, usually ",".}
 }
 \description{
 convenice function to format numbers
